@@ -2,9 +2,7 @@ package io.github.unresolved.liveupload;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
-import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j;
-import lombok.extern.log4j.Log4j2;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,7 +26,7 @@ public class Main {
                 .withRequiredArg().required().ofType(String.class);
         OptionSet options = parser.parse(args);
 
-        byte[] bannerData = ClassLoader.getSystemClassLoader().getResourceAsStream("banner.txt").readAllBytes();
+        byte[] bannerData = Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResourceAsStream("banner.txt")).readAllBytes();
         log.info(new String(bannerData));
 
         String configPath = String.valueOf(options.valueOf("config"));
@@ -40,10 +38,7 @@ public class Main {
         // validate configuration file
         validateConfig();
 
-//        Timer timer = new Timer("Live Upload Schedule Timer");
-//        TimerTask task = new LiveUploadTask(config, timer);
-//        // start upload task now
-//        timer.schedule(task, 0);
+        // start upload task now
         LiveUploadTask task = new LiveUploadTask(config);
         task.run();
 
@@ -111,8 +106,7 @@ public class Main {
 
         // check destination path
         String destinationPath = config.getDestinationPath();
-        if (destinationPath.equals("")              // != ""
-                || !destinationPath.startsWith("/") // prefix must begin with "/"
+        if (!destinationPath.startsWith("/") // prefix must begin with "/"
                 || (!destinationPath.equals("/")
                 && destinationPath.endsWith("/"))   // suffix must not end with "/"
         ) {

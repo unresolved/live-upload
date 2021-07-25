@@ -20,8 +20,8 @@ public class LiveUploadTask implements Runnable {
     private static final String PATH_SEPARATOR = "/";
     private static final String DIR_ITER_EOF = "g2gCZAAEbmV4dGQAA2VvZg";
 
-    private Config config;
-    private RestManager manager;
+    private final Config config;
+    private final RestManager manager;
 
     public LiveUploadTask(Config config) {
         this.config = config;
@@ -54,9 +54,6 @@ public class LiveUploadTask implements Runnable {
     private void doTask() {
         List<String> remoteFileList = getRemoteFileList();
         assert remoteFileList != null;
-//        for (String remoteFile : remoteFileList) {
-//            log.info(remoteFile);
-//        }
         File srcDir = new File(config.getSourceDirectory());
 
         List<String> uploadFileList = new ArrayList<>();
