@@ -12,7 +12,7 @@ A upyun synchronization tool
 
 ## Configuration file
 
-> When specified configuration file not exits, LiveUpload will auto create it, You should edit it after program run completed.
+> When specified configuration file not exists, LiveUpload will auto create it, You should edit it after program run completed.
 
 ```properties
 
